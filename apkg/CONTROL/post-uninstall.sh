@@ -7,8 +7,8 @@ for binary in gpg gpg-agent gpgconf gpgv dirmngr gpg-connect-agent gpgparsemail 
 done
 
 # Clean up library configuration
-if [ -f /etc/ld.so.conf ]; then
-    sed -i '/\/usr\/local\/gnupg\/lib/d' /etc/ld.so.conf 2>/dev/null || true
+if [ -f /etc/ld.so.conf.d/gnupg.conf ]; then
+    rm -f /etc/ld.so.conf.d/gnupg.conf
     ldconfig 2>/dev/null || true
 fi
 
