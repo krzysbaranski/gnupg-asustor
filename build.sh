@@ -49,7 +49,7 @@ download_and_extract "gnupg" "$GNUPG_VERSION" "https://gnupg.org/ftp/gcrypt/gnup
 echo ""
 echo "Step 2: Building libgpg-error..."
 cd "libgpg-error-${LIBGPG_ERROR_VERSION}"
-./configure --prefix="$PREFIX" --enable-static --disable-shared
+./configure --prefix="$PREFIX"
 make -j$(nproc)
 make install DESTDIR="${PACKAGE_DIR}"
 cd ..
@@ -58,7 +58,9 @@ cd ..
 echo ""
 echo "Step 3: Building libgcrypt..."
 cd "libgcrypt-${LIBGCRYPT_VERSION}"
-./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${PACKAGE_DIR}${PREFIX}" --enable-static --disable-shared
+export PKG_CONFIG_PATH="${PACKAGE_DIR}${PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH"
+export LD_LIBRARY_PATH="${PACKAGE_DIR}${PREFIX}/lib:$LD_LIBRARY_PATH"
+./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${PACKAGE_DIR}${PREFIX}"
 make -j$(nproc)
 make install DESTDIR="${PACKAGE_DIR}"
 cd ..
@@ -67,7 +69,7 @@ cd ..
 echo ""
 echo "Step 4: Building libassuan..."
 cd "libassuan-${LIBASSUAN_VERSION}"
-./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${PACKAGE_DIR}${PREFIX}" --enable-static --disable-shared
+./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${PACKAGE_DIR}${PREFIX}"
 make -j$(nproc)
 make install DESTDIR="${PACKAGE_DIR}"
 cd ..
@@ -76,7 +78,7 @@ cd ..
 echo ""
 echo "Step 5: Building libksba..."
 cd "libksba-${LIBKSBA_VERSION}"
-./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${PACKAGE_DIR}${PREFIX}" --enable-static --disable-shared
+./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${PACKAGE_DIR}${PREFIX}"
 make -j$(nproc)
 make install DESTDIR="${PACKAGE_DIR}"
 cd ..
@@ -85,7 +87,7 @@ cd ..
 echo ""
 echo "Step 6: Building npth..."
 cd "npth-${NPTH_VERSION}"
-./configure --prefix="$PREFIX" --enable-static --disable-shared
+./configure --prefix="$PREFIX"
 make -j$(nproc)
 make install DESTDIR="${PACKAGE_DIR}"
 cd ..
@@ -106,9 +108,7 @@ export CPPFLAGS="-I${PACKAGE_DIR}${PREFIX}/include"
     --with-libgcrypt-prefix="${PACKAGE_DIR}${PREFIX}" \
     --with-libassuan-prefix="${PACKAGE_DIR}${PREFIX}" \
     --with-ksba-prefix="${PACKAGE_DIR}${PREFIX}" \
-    --with-npth-prefix="${PACKAGE_DIR}${PREFIX}" \
-    --disable-ldap \
-    --disable-dirmngr
+    --with-npth-prefix="${PACKAGE_DIR}${PREFIX}"
 
 make -j$(nproc)
 make install DESTDIR="${PACKAGE_DIR}"

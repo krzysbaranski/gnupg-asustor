@@ -14,7 +14,6 @@ This package provides GnuPG binaries compiled for ASUSTOR NAS devices, enabling 
 - S/MIME and Secure Shell support
 - Command-line tools for encryption and signing
 - Key management utilities
-- Compiled with static libraries for maximum compatibility
 
 ## Building
 
@@ -106,8 +105,6 @@ This package includes:
 - libksba 1.6.6
 - npth 1.7
 
-All libraries are statically linked to minimize dependencies.
-
 ## Development
 
 ### Repository Structure
@@ -121,6 +118,8 @@ All libraries are statically linked to minimize dependencies.
 │   └── CONTROL/
 │       ├── config.json        # Package metadata
 │       ├── description.txt    # Package description
+│       ├── changelog.txt      # Version history
+│       ├── icon.png           # Package icon
 │       ├── pre-install.sh     # Pre-installation script
 │       ├── post-install.sh    # Post-installation script
 │       ├── pre-uninstall.sh   # Pre-uninstallation script
