@@ -119,7 +119,7 @@ cd ..
 # Copy staging directory to package directory
 echo ""
 echo "Step 8: Copying files to package directory..."
-mkdir -p "${PACKAGE_DIR}"
+mkdir -p "${PACKAGE_DIR}$(dirname ${PREFIX})"
 cp -a "${STAGING_DIR}${PREFIX}" "${PACKAGE_DIR}${PREFIX}"
 
 # Clean up build artifacts
