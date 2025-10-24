@@ -56,13 +56,17 @@ make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
 cd ..
 
+# Set up environment to use staged dependencies for subsequent builds
+export PKG_CONFIG_PATH="${STAGING_DIR}${PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PATH="${STAGING_DIR}${PREFIX}/bin:$PATH"
+export LD_LIBRARY_PATH="${STAGING_DIR}${PREFIX}/lib:$LD_LIBRARY_PATH"
+export CPPFLAGS="-I${STAGING_DIR}${PREFIX}/include"
+export LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib"
+
 # Build libgcrypt
 echo ""
 echo "Step 3: Building libgcrypt..."
 cd "libgcrypt-${LIBGCRYPT_VERSION}"
-export PKG_CONFIG_PATH="${STAGING_DIR}${PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PATH="${STAGING_DIR}${PREFIX}/bin:$PATH"
-export LD_LIBRARY_PATH="${STAGING_DIR}${PREFIX}/lib:$LD_LIBRARY_PATH"
 ./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}"
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
@@ -99,13 +103,6 @@ cd ..
 echo ""
 echo "Step 7: Building GnuPG..."
 cd "gnupg-${GNUPG_VERSION}"
-
-# Set up environment for finding our libraries
-export PKG_CONFIG_PATH="${STAGING_DIR}${PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH"
-export PATH="${STAGING_DIR}${PREFIX}/bin:$PATH"
-export LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib"
-export CPPFLAGS="-I${STAGING_DIR}${PREFIX}/include"
-export LD_LIBRARY_PATH="${STAGING_DIR}${PREFIX}/lib:$LD_LIBRARY_PATH"
 
 ./configure \
     --prefix="$PREFIX" \
