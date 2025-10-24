@@ -74,6 +74,7 @@ Before submitting a PR:
 2. Verify the package structure is correct
 3. Test that all scripts are executable
 4. Check that documentation is up to date
+5. Verify that all binaries run on ASUSTOR NAS (if testing on actual hardware)
 
 ## Questions?
 

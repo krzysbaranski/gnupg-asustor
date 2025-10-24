@@ -14,10 +14,12 @@ NPTH_VERSION="1.7"
 # Installation prefix
 PREFIX="/usr/local/gnupg"
 BUILD_DIR="$(pwd)/build"
+STAGING_DIR="$(pwd)/staging"
 PACKAGE_DIR="$(pwd)/apkg"
 
-# Create build directory
+# Create build and staging directories
 mkdir -p "$BUILD_DIR"
+mkdir -p "$STAGING_DIR"
 cd "$BUILD_DIR"
 
 echo "================================================"
@@ -51,36 +53,37 @@ echo "Step 2: Building libgpg-error..."
 cd "libgpg-error-${LIBGPG_ERROR_VERSION}"
 ./configure --prefix="$PREFIX"
 make -j$(nproc)
-make install DESTDIR="${PACKAGE_DIR}"
+make install DESTDIR="${STAGING_DIR}"
 cd ..
 
 # Build libgcrypt
 echo ""
 echo "Step 3: Building libgcrypt..."
 cd "libgcrypt-${LIBGCRYPT_VERSION}"
-export PKG_CONFIG_PATH="${PACKAGE_DIR}${PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH"
-export LD_LIBRARY_PATH="${PACKAGE_DIR}${PREFIX}/lib:$LD_LIBRARY_PATH"
-./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${PACKAGE_DIR}${PREFIX}"
+export PKG_CONFIG_PATH="${STAGING_DIR}${PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PATH="${STAGING_DIR}${PREFIX}/bin:$PATH"
+export LD_LIBRARY_PATH="${STAGING_DIR}${PREFIX}/lib:$LD_LIBRARY_PATH"
+./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}"
 make -j$(nproc)
-make install DESTDIR="${PACKAGE_DIR}"
+make install DESTDIR="${STAGING_DIR}"
 cd ..
 
 # Build libassuan
 echo ""
 echo "Step 4: Building libassuan..."
 cd "libassuan-${LIBASSUAN_VERSION}"
-./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${PACKAGE_DIR}${PREFIX}"
+./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}"
 make -j$(nproc)
-make install DESTDIR="${PACKAGE_DIR}"
+make install DESTDIR="${STAGING_DIR}"
 cd ..
 
 # Build libksba
 echo ""
 echo "Step 5: Building libksba..."
 cd "libksba-${LIBKSBA_VERSION}"
-./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${PACKAGE_DIR}${PREFIX}"
+./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}"
 make -j$(nproc)
-make install DESTDIR="${PACKAGE_DIR}"
+make install DESTDIR="${STAGING_DIR}"
 cd ..
 
 # Build npth
@@ -89,7 +92,7 @@ echo "Step 6: Building npth..."
 cd "npth-${NPTH_VERSION}"
 ./configure --prefix="$PREFIX"
 make -j$(nproc)
-make install DESTDIR="${PACKAGE_DIR}"
+make install DESTDIR="${STAGING_DIR}"
 cd ..
 
 # Build GnuPG
@@ -98,28 +101,37 @@ echo "Step 7: Building GnuPG..."
 cd "gnupg-${GNUPG_VERSION}"
 
 # Set up environment for finding our libraries
-export PKG_CONFIG_PATH="${PACKAGE_DIR}${PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH"
-export LDFLAGS="-L${PACKAGE_DIR}${PREFIX}/lib"
-export CPPFLAGS="-I${PACKAGE_DIR}${PREFIX}/include"
+export PKG_CONFIG_PATH="${STAGING_DIR}${PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH"
+export PATH="${STAGING_DIR}${PREFIX}/bin:$PATH"
+export LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib"
+export CPPFLAGS="-I${STAGING_DIR}${PREFIX}/include"
+export LD_LIBRARY_PATH="${STAGING_DIR}${PREFIX}/lib:$LD_LIBRARY_PATH"
 
 ./configure \
     --prefix="$PREFIX" \
-    --with-libgpg-error-prefix="${PACKAGE_DIR}${PREFIX}" \
-    --with-libgcrypt-prefix="${PACKAGE_DIR}${PREFIX}" \
-    --with-libassuan-prefix="${PACKAGE_DIR}${PREFIX}" \
-    --with-ksba-prefix="${PACKAGE_DIR}${PREFIX}" \
-    --with-npth-prefix="${PACKAGE_DIR}${PREFIX}"
+    --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}" \
+    --with-libgcrypt-prefix="${STAGING_DIR}${PREFIX}" \
+    --with-libassuan-prefix="${STAGING_DIR}${PREFIX}" \
+    --with-ksba-prefix="${STAGING_DIR}${PREFIX}" \
+    --with-npth-prefix="${STAGING_DIR}${PREFIX}"
 
 make -j$(nproc)
-make install DESTDIR="${PACKAGE_DIR}"
+make install DESTDIR="${STAGING_DIR}"
 cd ..
+
+# Copy staging directory to package directory
+echo ""
+echo "Step 8: Copying files to package directory..."
+mkdir -p "${PACKAGE_DIR}"
+cp -a "${STAGING_DIR}${PREFIX}" "${PACKAGE_DIR}${PREFIX}"
 
 # Clean up build artifacts
 echo ""
-echo "Step 8: Cleaning up..."
+echo "Step 9: Cleaning up..."
 cd ..
 # Keep the build directory for debugging purposes
 # rm -rf "$BUILD_DIR"
+# rm -rf "$STAGING_DIR"
 
 echo ""
 echo "================================================"
