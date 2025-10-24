@@ -1,0 +1,33 @@
+# Build directories
+build/
+staging/
+dist/
+
+# Package build artifacts
+*.apk
+*.tar.gz
+*.tar.bz2
+
+# Temporary files
+*.tmp
+*.swp
+*~
+
+# IDE files
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Package installation files (keep the structure, exclude actual installed files)
+apkg/usr/
+apkg/lib/
+apkg/bin/
+apkg/share/
+apkg/include/
