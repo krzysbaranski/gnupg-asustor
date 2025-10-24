@@ -11,6 +11,7 @@ if [ -d /usr/local/gnupg/bin ]; then
 fi
 
 # Update library cache
+mkdir -p /etc/ld.so.conf.d 2>/dev/null || true
 if [ -d /etc/ld.so.conf.d ]; then
     echo "/usr/local/gnupg/lib" > /etc/ld.so.conf.d/gnupg.conf
     ldconfig 2>/dev/null || true
