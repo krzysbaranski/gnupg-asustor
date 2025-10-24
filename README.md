@@ -17,6 +17,8 @@ This package provides GnuPG binaries compiled for ASUSTOR NAS devices, enabling 
 
 ## Building
 
+## Building
+
 ### Automated Build (GitHub Actions)
 
 The package is automatically built using GitHub Actions on every push to the main branch. The workflow:
@@ -30,34 +32,15 @@ You can download the built APK from the Actions tab after a successful build.
 
 ### Manual Build
 
-To build the package manually:
+For detailed build instructions including Docker-based builds, see [QUICKSTART.md](QUICKSTART.md).
 
-1. **Install dependencies** (on Ubuntu/Debian):
-   ```bash
-   sudo apt-get update
-   sudo apt-get install -y \
-     build-essential wget bzip2 make gettext texinfo \
-     libgnutls28-dev libbz2-dev zlib1g-dev libncurses5-dev \
-     libsqlite3-dev libldap2-dev libreadline-dev libusb-1.0-0-dev
-   ```
-
-2. **Run the build script**:
-   ```bash
-   chmod +x build.sh
-   ./build.sh
-   ```
-
-3. **Package the application**:
-   ```bash
-   # Using Docker with apkg-tools
-   docker run --rm -v $(pwd)/apkg:/source -v $(pwd)/dist:/dest \
-     ghcr.io/asustor-contrib/apkg-tools:latest
-   ```
-
-   Or use the GitHub Action locally with [act](https://github.com/nektos/act):
-   ```bash
-   act -j build
-   ```
+Quick summary:
+```bash
+git clone https://github.com/krzysbaranski/gnupg-asustor.git
+cd gnupg-asustor
+chmod +x build.sh
+./build.sh
+```
 
 ## Installation
 

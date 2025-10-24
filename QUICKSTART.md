@@ -19,6 +19,28 @@ You need:
 
 ## Option 2: Local Build
 
+### Option 2a: Build with Docker (Recommended for Consistency)
+
+Build inside a Docker container to ensure a consistent environment:
+
+```bash
+# Clone the repository
+git clone https://github.com/krzysbaranski/gnupg-asustor.git
+cd gnupg-asustor
+
+# Build using Docker
+docker run --rm -v $(pwd):/workspace -w /workspace ubuntu:22.04 bash -c "
+  apt-get update && \
+  apt-get install -y build-essential wget bzip2 make gettext texinfo \
+    libgnutls28-dev libbz2-dev zlib1g-dev libncurses5-dev \
+    libsqlite3-dev libldap2-dev libreadline-dev libusb-1.0-0-dev && \
+  chmod +x build.sh && \
+  ./build.sh
+"
+```
+
+### Option 2b: Build Directly on Host
+
 ### Install Dependencies
 
 On Ubuntu/Debian:
@@ -34,7 +56,7 @@ sudo apt-get install -y \
 
 ```bash
 # Clone the repository
-git clone https://github.com/YOUR_USERNAME/gnupg-asustor.git
+git clone https://github.com/krzysbaranski/gnupg-asustor.git
 cd gnupg-asustor
 
 # Run the build script

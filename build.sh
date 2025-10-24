@@ -33,7 +33,7 @@ download_and_extract() {
     local url=$3
     
     echo "Downloading ${name} ${version}..."
-    wget -q --show-progress "${url}" -O "${name}-${version}.tar.bz2"
+    wget -q "${url}" -O "${name}-${version}.tar.bz2"
     echo "Extracting ${name} ${version}..."
     tar xjf "${name}-${version}.tar.bz2"
 }
