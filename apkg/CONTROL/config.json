@@ -1,0 +1,13 @@
+{
+  "app": "gnupg",
+  "version": "2.4.5",
+  "developer": "GnuPG Project",
+  "maintainer": "krzysbaranski",
+  "category": "Security",
+  "display_name": "GnuPG",
+  "description": "GNU Privacy Guard - a complete and free implementation of the OpenPGP standard",
+  "website": "https://gnupg.org/",
+  "license": "GPL-3.0",
+  "architecture": ["x86-64", "i686"],
+  "minimum_os": "4.0.0"
+}
