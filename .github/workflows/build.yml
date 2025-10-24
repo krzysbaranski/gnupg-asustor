@@ -11,6 +11,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
+    permissions:
+      contents: write  # Required for creating releases
+      actions: read    # Required for reading workflow artifacts
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
