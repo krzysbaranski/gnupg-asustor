@@ -34,7 +34,7 @@ sudo apt-get install -y \
 
 ```bash
 # Clone the repository
-git clone https://github.com/krzysbaranski/gnupg-asustor.git
+git clone https://github.com/YOUR_USERNAME/gnupg-asustor.git
 cd gnupg-asustor
 
 # Run the build script
