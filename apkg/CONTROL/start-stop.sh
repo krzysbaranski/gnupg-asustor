@@ -7,12 +7,12 @@ case $1 in
 
 	start)
 		echo "Starting GnuPG..."
-		[ -d ${APP_PATH}/${GNUPG_CONFIGS} ] && cp -a ${APP_PATH}/${GNUPG_CONFIGS} /root/${GNUPG_CONFIGS}
+		[ -d "${APP_PATH}/${GNUPG_CONFIGS}" ] && cp -a "${APP_PATH}/${GNUPG_CONFIGS}" "/root/${GNUPG_CONFIGS}"
 		;;
 
 	stop)
 		echo "Stopping GnuPG..."
-		[ -d /root/${GNUPG_CONFIGS} ] && cp -a /root/${GNUPG_CONFIGS} ${APP_PATH}/${GNUPG_CONFIGS}
+		[ -d "/root/${GNUPG_CONFIGS}" ] && cp -a "/root/${GNUPG_CONFIGS}" "${APP_PATH}/${GNUPG_CONFIGS}"
 		;;
 
 	*)
