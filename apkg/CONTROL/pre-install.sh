@@ -1,11 +1,15 @@
 #!/bin/sh
-# Pre-installation script for GnuPG
 
-# Check if system has required dependencies
-echo "Preparing to install GnuPG..."
+GNUPG_CONFIGS=".gnupg"
 
-# Create necessary directories
-mkdir -p /usr/local/gnupg/bin
-mkdir -p /usr/local/gnupg/lib
+case "$APKG_PKG_STATUS" in
+	install)
+		;;
+	upgrade)
+		[ -d ${APKG_PKG_DIR}/${GNUPG_CONFIGS} ] && cp -af ${APKG_PKG_DIR}/${GNUPG_CONFIGS} $APKG_TEMP_DIR/
+		;;
+	*)
+		;;
+esac
 
 exit 0

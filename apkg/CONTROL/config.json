@@ -20,5 +20,11 @@
       "accessible": "users",
       "customizable": false
     }
+  },
+  "register": {
+    "symbolic-link": {
+      "/bin": ["*"],
+      "/lib": ["*.so*"]
+    }
   }
 }
