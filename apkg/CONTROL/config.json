@@ -23,8 +23,8 @@
   },
   "register": {
     "symbolic-link": {
-      "/bin": ["*"],
-      "/lib": ["*.so*"]
+      "/usr/local/gnupg/bin": ["*"],
+      "/usr/local/gnupg/lib": ["*.so*"]
     }
   }
 }
