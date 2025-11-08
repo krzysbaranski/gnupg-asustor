@@ -116,12 +116,7 @@ make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
 cd ..
 
-# Copy staging directory to package directory
-echo ""
-echo "Step 8: Copying files to package directory..."
-mkdir -p "${PACKAGE_DIR}$(dirname ${PREFIX})"
-cp -a "${STAGING_DIR}${PREFIX}" "${PACKAGE_DIR}${PREFIX}"
-
+# Note: Package preparation is done by package.sh after build
 # Clean up build artifacts
 echo ""
 echo "Step 9: Cleaning up..."
@@ -133,11 +128,23 @@ cd ..
 echo ""
 echo "================================================"
 echo "Build completed successfully!"
-echo "Package contents are in: ${PACKAGE_DIR}"
 echo "================================================"
 echo ""
+echo "Staging directory contents:"
 echo "Installed binaries:"
-ls -lh "${PACKAGE_DIR}${PREFIX}/bin/" 2>/dev/null || echo "No binaries found"
+ls -lh "${STAGING_DIR}${PREFIX}/bin/" 2>/dev/null || echo "No binaries found"
 echo ""
 echo "Installed libraries:"
-ls -lh "${PACKAGE_DIR}${PREFIX}/lib/" 2>/dev/null || echo "No libraries found"
+ls -1 "${STAGING_DIR}${PREFIX}/lib/"*.so* 2>/dev/null | head -10 || echo "No libraries found"
+if [ $(ls -1 "${STAGING_DIR}${PREFIX}/lib/"*.so* 2>/dev/null | wc -l) -gt 10 ]; then
+    echo "... and more"
+fi
+echo ""
+
+# Run the packaging script
+if [ -f "$(pwd)/package.sh" ]; then
+    echo "Running package.sh to prepare ASUSTOR package..."
+    "$(pwd)/package.sh"
+else
+    echo "Warning: package.sh not found, skipping package preparation"
+fi

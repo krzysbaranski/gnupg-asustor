@@ -29,5 +29,6 @@ Thumbs.db
 apkg/usr/
 apkg/lib/
 apkg/bin/
+apkg/libexec/
 apkg/share/
 apkg/include/

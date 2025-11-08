@@ -3,28 +3,20 @@
     "package": "gnupg",
     "name": "GnuPG",
     "version": "2.4.5",
+    "depends": [],
+    "conflicts": [],
     "developer": "GnuPG Project",
-    "maintainer": "krzysbaranski",
+    "maintainer": "",
     "email": "",
     "website": "https://gnupg.org/",
     "architecture": "x86-64",
-    "firmware": "4.0.0",
-    "description": "GNU Privacy Guard - a complete and free implementation of the OpenPGP standard",
-    "license": "GPL-3.0"
-  },
-  "adm-desktop": {
-    "app": {
-      "type": "native"
-    },
-    "privilege": {
-      "accessible": "users",
-      "customizable": false
-    }
+    "firmware": "5.1"
   },
   "register": {
     "symbolic-link": {
-      "/bin": ["*"],
-      "/lib": ["*.so*"]
+      "/bin": [],
+      "/lib": [],
+      "/libexec": []
     }
   }
 }
