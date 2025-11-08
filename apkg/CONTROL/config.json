@@ -6,7 +6,7 @@
     "depends": [],
     "conflicts": [],
     "developer": "GnuPG Project",
-    "maintainer": "",
+    "maintainer": "Krzysztof Barański",
     "email": "",
     "website": "https://gnupg.org/",
     "architecture": "x86-64",
