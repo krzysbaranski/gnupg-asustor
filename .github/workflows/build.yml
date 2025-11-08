@@ -57,6 +57,11 @@ jobs:
           echo "Checking config.json..."
           cat apkg/CONTROL/config.json
       
+      - name: Validate package contents
+        run: |
+          chmod +x ./validate-package.sh
+          ./validate-package.sh
+      
       - name: Package ASUSTOR App
         uses: asustor-contrib/ga-package-asustor-app@v2
         with:

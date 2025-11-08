@@ -148,3 +148,13 @@ if [ -f "$(pwd)/package.sh" ]; then
 else
     echo "Warning: package.sh not found, skipping package preparation"
 fi
+
+echo ""
+
+# Run the validation script
+if [ -f "$(pwd)/validate-package.sh" ]; then
+    echo "Running validate-package.sh to validate package contents..."
+    "$(pwd)/validate-package.sh" || echo "Note: Validation completed with warnings or errors (see above)"
+else
+    echo "Warning: validate-package.sh not found, skipping validation"
+fi
