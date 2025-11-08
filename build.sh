@@ -117,28 +117,12 @@ make install DESTDIR="${STAGING_DIR}"
 cd ..
 
 # Note: Package preparation is done by package.sh after build
-# Clean up build artifacts
-echo ""
-echo "Step 9: Cleaning up..."
 cd ..
-# Keep the build directory for debugging purposes
-# rm -rf "$BUILD_DIR"
-# rm -rf "$STAGING_DIR"
 
 echo ""
 echo "================================================"
 echo "Build completed successfully!"
 echo "================================================"
-echo ""
-echo "Staging directory contents:"
-echo "Installed binaries:"
-ls -lh "${STAGING_DIR}${PREFIX}/bin/" 2>/dev/null || echo "No binaries found"
-echo ""
-echo "Installed libraries:"
-ls -1 "${STAGING_DIR}${PREFIX}/lib/"*.so* 2>/dev/null | head -10 || echo "No libraries found"
-if [ $(ls -1 "${STAGING_DIR}${PREFIX}/lib/"*.so* 2>/dev/null | wc -l) -gt 10 ]; then
-    echo "... and more"
-fi
 echo ""
 
 # Run the packaging script

@@ -43,20 +43,6 @@ jobs:
           chmod +x ./build.sh
           ./build.sh
       
-      - name: Verify build output
-        run: |
-          echo "Checking package structure..."
-          find apkg -type f | head -30
-          echo ""
-          echo "Checking binaries..."
-          ls -lh apkg/bin/ || echo "No binaries found"
-          echo ""
-          echo "Checking libraries..."
-          ls -1 apkg/lib/ | head -10 || echo "No libraries found"
-          echo ""
-          echo "Checking config.json..."
-          cat apkg/CONTROL/config.json
-      
       - name: Validate package contents
         run: |
           chmod +x ./validate-package.sh
