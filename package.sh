@@ -36,8 +36,8 @@ if [ -d "${STAGING_DIR}${PREFIX}/bin" ]; then
 fi
 
 if [ -d "${STAGING_DIR}${PREFIX}/lib" ]; then
-    # Copy all .so* files
-    find "${STAGING_DIR}${PREFIX}/lib" -name "*.so*" -type f -exec cp -a {} "${PACKAGE_DIR}/lib/" \; 2>/dev/null || true
+    # Copy all .so* files and symlinks
+    find "${STAGING_DIR}${PREFIX}/lib" -name "*.so*" \( -type f -o -type l \) -exec cp -a {} "${PACKAGE_DIR}/lib/" \; 2>/dev/null || true
 fi
 
 if [ -d "${STAGING_DIR}${PREFIX}/libexec" ]; then
@@ -79,7 +79,7 @@ fi
 LIB_FILES=""
 if [ -d "${PACKAGE_DIR}/lib" ]; then
     for file in "${PACKAGE_DIR}/lib/"*.so*; do
-        if [ -f "$file" ]; then
+        if [ -f "$file" ] || [ -L "$file" ]; then
             filename=$(basename "$file")
             if [ -z "$LIB_FILES" ]; then
                 LIB_FILES="\"$filename\""
