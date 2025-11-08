@@ -65,7 +65,7 @@ echo "Step 5: Generating file lists..."
 BIN_FILES=""
 if [ -d "${PACKAGE_DIR}/bin" ]; then
     for file in "${PACKAGE_DIR}/bin/"*; do
-        if [ -f "$file" ]; then
+        if [ -f "$file" ] || [ -L "$file" ]; then
             filename=$(basename "$file")
             if [ -z "$BIN_FILES" ]; then
                 BIN_FILES="\"$filename\""
@@ -93,7 +93,7 @@ fi
 LIBEXEC_FILES=""
 if [ -d "${PACKAGE_DIR}/libexec" ]; then
     for file in "${PACKAGE_DIR}/libexec/"*; do
-        if [ -f "$file" ]; then
+        if [ -f "$file" ] || [ -L "$file" ]; then
             filename=$(basename "$file")
             if [ -z "$LIBEXEC_FILES" ]; then
                 LIBEXEC_FILES="\"$filename\""
@@ -143,9 +143,9 @@ echo "Package preparation completed successfully!"
 echo "================================================"
 echo ""
 echo "Package structure:"
-echo "  bin/: $(find "${PACKAGE_DIR}/bin" -type f 2>/dev/null | wc -l) files"
-echo "  lib/: $(find "${PACKAGE_DIR}/lib" -type f 2>/dev/null | wc -l) files"
-echo "  libexec/: $(find "${PACKAGE_DIR}/libexec" -type f 2>/dev/null | wc -l) files"
+echo "  bin/: $(find "${PACKAGE_DIR}/bin" \( -type f -o -type l \) 2>/dev/null | wc -l) files"
+echo "  lib/: $(find "${PACKAGE_DIR}/lib" \( -type f -o -type l \) 2>/dev/null | wc -l) files"
+echo "  libexec/: $(find "${PACKAGE_DIR}/libexec" \( -type f -o -type l \) 2>/dev/null | wc -l) files"
 echo ""
 echo "Binary files:"
 ls -1 "${PACKAGE_DIR}/bin/" 2>/dev/null || echo "No binaries found"
