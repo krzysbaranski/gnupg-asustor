@@ -99,7 +99,6 @@ validate_directory() {
 # Validate each directory
 validate_directory "bin" '.register."symbolic-link"."/bin"'
 validate_directory "lib" '.register."symbolic-link"."/lib"'
-validate_directory "libexec" '.register."symbolic-link"."/libexec"'
 
 # Summary
 echo "================================================"
