@@ -25,8 +25,10 @@ The package is automatically built using GitHub Actions on every push to the mai
 
 1. Installs required build dependencies
 2. Downloads and compiles GnuPG and its dependencies from source
-3. Packages everything into an ASUSTOR APK file
-4. Uploads the package as a build artifact
+3. Reorganizes files into ASUSTOR package structure (bin/, lib/, libexec/ at root)
+4. Validates package contents against config.json
+5. Packages everything into an ASUSTOR APK file
+6. Uploads the package as a build artifact
 
 You can download the built APK from the Actions tab after a successful build.
 
@@ -41,6 +43,12 @@ cd gnupg-asustor
 chmod +x build.sh
 ./build.sh
 ```
+
+The build process:
+1. `build.sh` compiles GnuPG and dependencies into a staging directory
+2. `package.sh` (called by build.sh) reorganizes files into the ASUSTOR package structure
+3. Files are placed in `apkg/bin/`, `apkg/lib/`, and `apkg/libexec/` directories
+4. `validate-package.sh` checks that all files in config.json exist and warns about unexpected files
 
 ## Installation
 
@@ -99,7 +107,7 @@ This package includes:
 │       └── build.yml          # GitHub Actions workflow
 ├── apkg/
 │   └── CONTROL/
-│       ├── config.json        # Package metadata
+│       ├── config.json        # Package metadata (static file list)
 │       ├── description.txt    # Package description
 │       ├── changelog.txt      # Version history
 │       ├── icon.png           # Package icon
@@ -108,6 +116,8 @@ This package includes:
 │       ├── pre-uninstall.sh   # Pre-uninstallation script
 │       └── post-uninstall.sh  # Post-uninstallation script
 ├── build.sh                   # Build script for GnuPG
+├── package.sh                 # Package preparation script
+├── validate-package.sh        # Package validation script
 ├── .gitignore                 # Git ignore patterns
 └── README.md                  # This file
 ```

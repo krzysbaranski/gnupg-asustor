@@ -43,13 +43,10 @@ jobs:
           chmod +x ./build.sh
           ./build.sh
       
-      - name: Verify build output
+      - name: Validate package contents
         run: |
-          echo "Checking package structure..."
-          find apkg -type f | head -20
-          echo ""
-          echo "Checking binaries..."
-          ls -lh apkg/usr/local/gnupg/bin/ || echo "No binaries found"
+          chmod +x ./validate-package.sh
+          ./validate-package.sh
       
       - name: Package ASUSTOR App
         uses: asustor-contrib/ga-package-asustor-app@v2

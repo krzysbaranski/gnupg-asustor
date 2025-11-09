@@ -116,28 +116,29 @@ make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
 cd ..
 
-# Copy staging directory to package directory
-echo ""
-echo "Step 8: Copying files to package directory..."
-mkdir -p "${PACKAGE_DIR}$(dirname ${PREFIX})"
-cp -a "${STAGING_DIR}${PREFIX}" "${PACKAGE_DIR}${PREFIX}"
-
-# Clean up build artifacts
-echo ""
-echo "Step 9: Cleaning up..."
+# Note: Package preparation is done by package.sh after build
 cd ..
-# Keep the build directory for debugging purposes
-# rm -rf "$BUILD_DIR"
-# rm -rf "$STAGING_DIR"
 
 echo ""
 echo "================================================"
 echo "Build completed successfully!"
-echo "Package contents are in: ${PACKAGE_DIR}"
 echo "================================================"
 echo ""
-echo "Installed binaries:"
-ls -lh "${PACKAGE_DIR}${PREFIX}/bin/" 2>/dev/null || echo "No binaries found"
+
+# Run the packaging script
+if [ -f "$(pwd)/package.sh" ]; then
+    echo "Running package.sh to prepare ASUSTOR package..."
+    "$(pwd)/package.sh"
+else
+    echo "Warning: package.sh not found, skipping package preparation"
+fi
+
 echo ""
-echo "Installed libraries:"
-ls -lh "${PACKAGE_DIR}${PREFIX}/lib/" 2>/dev/null || echo "No libraries found"
+
+# Run the validation script
+if [ -f "$(pwd)/validate-package.sh" ]; then
+    echo "Running validate-package.sh to validate package contents..."
+    "$(pwd)/validate-package.sh" || echo "Note: Validation completed with warnings or errors (see above)"
+else
+    echo "Warning: validate-package.sh not found, skipping validation"
+fi
