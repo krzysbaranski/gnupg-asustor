@@ -27,7 +27,7 @@ The package is automatically built using GitHub Actions on every push to the mai
 2. Downloads and compiles GnuPG and its dependencies from source
 3. Reorganizes files into ASUSTOR package structure (bin/, lib/, libexec/ at root)
 4. Validates package contents against config.json
-5. Packages everything into an ASUSTOR APK file
+5. Packages everything into an ASUSTOR APK file using local Python scripts
 6. Uploads the package as a build artifact
 
 You can download the built APK from the Actions tab after a successful build.
@@ -118,6 +118,8 @@ This package includes:
 ├── build.sh                   # Build script for GnuPG
 ├── package.sh                 # Package preparation script
 ├── validate-package.sh        # Package validation script
+├── apkg_tools.py              # ASUSTOR package creation library
+├── create-apkg.py             # APK packaging script
 ├── .gitignore                 # Git ignore patterns
 └── README.md                  # This file
 ```
