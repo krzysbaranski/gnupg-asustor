@@ -3,6 +3,11 @@ build/
 staging/
 dist/
 
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
 # Package build artifacts
 *.apk
 *.tar.gz
