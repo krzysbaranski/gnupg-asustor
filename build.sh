@@ -111,6 +111,7 @@ cd "gnupg-${GNUPG_VERSION}"
     --with-libassuan-prefix="${STAGING_DIR}${PREFIX}" \
     --with-ksba-prefix="${STAGING_DIR}${PREFIX}" \
     --with-npth-prefix="${STAGING_DIR}${PREFIX}" \
+    --disable-tests \
     CFLAGS="-std=gnu89"
 
 make -j$(nproc)
