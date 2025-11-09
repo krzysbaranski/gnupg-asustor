@@ -45,25 +45,19 @@
       ],
       "/lib": [
         "libassuan.so",
-        "libassuan.so.0",
-        "libassuan.so.0.8.7",
         "libassuan.so.9",
         "libassuan.so.9.0.2",
         "libgcrypt.so",
         "libgcrypt.so.20",
-        "libgcrypt.so.20.4.3",
         "libgcrypt.so.20.6.0",
         "libgpg-error.so",
         "libgpg-error.so.0",
-        "libgpg-error.so.0.36.0",
         "libgpg-error.so.0.40.0",
         "libksba.so",
         "libksba.so.8",
-        "libksba.so.8.14.6",
         "libksba.so.8.14.7",
         "libnpth.so",
         "libnpth.so.0",
-        "libnpth.so.0.2.0",
         "libnpth.so.0.3.0"
       ]
     }
