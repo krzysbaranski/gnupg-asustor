@@ -69,17 +69,6 @@
         "libnpth.so",
         "libnpth.so.0",
         "libnpth.so.0.2.0"
-      ],
-      "/libexec": [
-        "dirmngr_ldap",
-        "gpg-auth",
-        "gpg-check-pattern",
-        "gpg-pair-tool",
-        "gpg-preset-passphrase",
-        "gpg-protect-tool",
-        "gpg-wks-client",
-        "keyboxd",
-        "scdaemon"
       ]
     }
   }
