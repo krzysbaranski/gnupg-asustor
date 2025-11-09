@@ -110,7 +110,8 @@ cd "gnupg-${GNUPG_VERSION}"
     --with-libgcrypt-prefix="${STAGING_DIR}${PREFIX}" \
     --with-libassuan-prefix="${STAGING_DIR}${PREFIX}" \
     --with-ksba-prefix="${STAGING_DIR}${PREFIX}" \
-    --with-npth-prefix="${STAGING_DIR}${PREFIX}"
+    --with-npth-prefix="${STAGING_DIR}${PREFIX}" \
+    CFLAGS="-std=gnu89"
 
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
