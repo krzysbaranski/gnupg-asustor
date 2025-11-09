@@ -89,12 +89,12 @@ For more information, see the [GnuPG documentation](https://gnupg.org/documentat
 ## Package Contents
 
 This package includes:
-- GnuPG 2.4.5
-- libgpg-error 1.49
-- libgcrypt 1.10.3
-- libassuan 2.5.7
-- libksba 1.6.6
-- npth 1.7
+- GnuPG
+- libgpg-error
+- libgcrypt
+- libassuan
+- libksba
+- npth
 
 ## Development
 

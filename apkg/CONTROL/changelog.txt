@@ -1,15 +1,15 @@
 GnuPG for ASUSTOR NAS - Changelog
 
-Version 2.4.5 (2024-01-15)
+Version 2.4.8 (2024-11-09)
 --------------------------
 * Initial release of GnuPG for ASUSTOR NAS
-* Includes GnuPG 2.4.5 with all core utilities
+* Includes GnuPG 2.4.8 with all core utilities
 * Statically compiled for maximum compatibility
 * Includes dependencies:
-  - libgpg-error 1.49
-  - libgcrypt 1.10.3
-  - libassuan 2.5.7
-  - libksba 1.6.6
-  - npth 1.7
+  - libgpg-error 1.56
+  - libgcrypt 1.11.2
+  - libassuan 3.0.2
+  - libksba 1.6.7
+  - npth 1.8
 * Automated build pipeline via GitHub Actions
 * Command-line tools available after installation

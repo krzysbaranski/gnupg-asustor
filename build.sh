@@ -4,12 +4,12 @@ set -e
 # Build script for GnuPG and dependencies for ASUSTOR NAS
 # This script downloads, compiles, and packages GnuPG
 
-GNUPG_VERSION="2.4.5"
-LIBGPG_ERROR_VERSION="1.49"
-LIBGCRYPT_VERSION="1.10.3"
-LIBASSUAN_VERSION="2.5.7"
-LIBKSBA_VERSION="1.6.6"
-NPTH_VERSION="1.7"
+GNUPG_VERSION="2.4.8"
+LIBGPG_ERROR_VERSION="1.56"
+LIBGCRYPT_VERSION="1.11.2"
+LIBASSUAN_VERSION="3.0.2"
+LIBKSBA_VERSION="1.6.7"
+NPTH_VERSION="1.8"
 
 # Installation prefix
 PREFIX="/usr/local/gnupg"
