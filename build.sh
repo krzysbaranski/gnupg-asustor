@@ -51,7 +51,7 @@ download_and_extract "gnupg" "$GNUPG_VERSION" "https://gnupg.org/ftp/gcrypt/gnup
 echo ""
 echo "Step 2: Building libgpg-error..."
 cd "libgpg-error-${LIBGPG_ERROR_VERSION}"
-./configure --prefix="$PREFIX" CFLAGS="-std=gnu99"
+./configure --prefix="$PREFIX" --disable-tests
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
 cd ..
@@ -111,8 +111,7 @@ cd "gnupg-${GNUPG_VERSION}"
     --with-libassuan-prefix="${STAGING_DIR}${PREFIX}" \
     --with-ksba-prefix="${STAGING_DIR}${PREFIX}" \
     --with-npth-prefix="${STAGING_DIR}${PREFIX}" \
-    --disable-tests \
-    CFLAGS="-std=gnu89"
+    --disable-tests
 
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
