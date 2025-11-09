@@ -14,15 +14,6 @@
     "description": "GNU Privacy Guard - a complete and free implementation of the OpenPGP standard",
     "license": "GPL-3.0"
   },
-  "adm-desktop": {
-    "app": {
-      "type": "native"
-    },
-    "privilege": {
-      "accessible": "users",
-      "customizable": false
-    }
-  },
   "register": {
     "symbolic-link": {
       "/bin": [
