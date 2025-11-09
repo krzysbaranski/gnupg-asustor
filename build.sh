@@ -51,7 +51,7 @@ download_and_extract "gnupg" "$GNUPG_VERSION" "https://gnupg.org/ftp/gcrypt/gnup
 echo ""
 echo "Step 2: Building libgpg-error..."
 cd "libgpg-error-${LIBGPG_ERROR_VERSION}"
-./configure --prefix="$PREFIX"
+./configure --prefix="$PREFIX" CFLAGS="-std=gnu99"
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
 cd ..
