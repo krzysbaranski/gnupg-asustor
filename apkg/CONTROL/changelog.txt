@@ -1,5 +1,12 @@
 GnuPG for ASUSTOR NAS - Changelog
 
+Version 2.4.8-1 (2024-12-07)
+----------------------------
+* Fix libgcrypt version conflict on ASUSTOR NAS
+* Embed RPATH in all binaries to prioritize packaged libraries over system libraries
+* Resolves "Fatal: libgcrypt is too old" error when system has older libgcrypt
+* No changes to GnuPG or dependency versions
+
 Version 2.4.8 (2024-11-09)
 --------------------------
 * Initial release of GnuPG for ASUSTOR NAS

@@ -2,7 +2,7 @@
   "general": {
     "package": "gnupg",
     "name": "GnuPG",
-    "version": "2.4.8",
+    "version": "2.4.8-1",
     "depends": [],
     "conflicts": [],
     "developer": "GnuPG Project",
