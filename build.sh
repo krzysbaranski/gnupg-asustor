@@ -11,7 +11,9 @@ LIBASSUAN_VERSION="3.0.2"
 LIBKSBA_VERSION="1.6.7"
 NPTH_VERSION="1.8"
 
-# Installation prefix
+# Build configuration
+# PREFIX: Path used during build/staging (can be any path for development)
+# INSTALL_PREFIX: Actual runtime path where ASUSTOR will install the package
 PREFIX="/usr/local/gnupg"
 BUILD_DIR="$(pwd)/build"
 STAGING_DIR="$(pwd)/staging"
@@ -55,7 +57,7 @@ download_and_extract "gnupg" "$GNUPG_VERSION" "https://gnupg.org/ftp/gcrypt/gnup
 echo ""
 echo "Step 2: Building libgpg-error..."
 cd "libgpg-error-${LIBGPG_ERROR_VERSION}"
-LDFLAGS="-Wl,-rpath,${INSTALL_PREFIX}/lib" \
+LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
 ./configure --prefix="$PREFIX" --disable-tests
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
