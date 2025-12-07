@@ -1,0 +1,26 @@
+# Dependabot configuration for gnupg-asustor
+# Documentation: https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Monitor GitHub Actions versions in workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+
+# Note: GnuPG and its dependencies (libgpg-error, libgcrypt, libassuan, libksba, npth)
+# are downloaded directly from source URLs in build.sh. These versions must be updated
+# manually as Dependabot cannot track direct source downloads.
+#
+# To update GnuPG or its dependencies:
+# 1. Check for new releases at https://gnupg.org/download/
+# 2. Update version variables in build.sh
+# 3. Test the build locally or via GitHub Actions
+# 4. Update the version in apkg/CONTROL/config.json
