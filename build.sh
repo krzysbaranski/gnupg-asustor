@@ -17,6 +17,10 @@ BUILD_DIR="$(pwd)/build"
 STAGING_DIR="$(pwd)/staging"
 PACKAGE_DIR="$(pwd)/apkg"
 
+# ASUSTOR installs packages to /usr/local/AppCentral/<package_name>
+# We need to set RPATH to ensure binaries use the packaged libraries
+INSTALL_PREFIX="/usr/local/AppCentral/gnupg"
+
 # Create build and staging directories
 mkdir -p "$BUILD_DIR"
 mkdir -p "$STAGING_DIR"
@@ -51,6 +55,7 @@ download_and_extract "gnupg" "$GNUPG_VERSION" "https://gnupg.org/ftp/gcrypt/gnup
 echo ""
 echo "Step 2: Building libgpg-error..."
 cd "libgpg-error-${LIBGPG_ERROR_VERSION}"
+LDFLAGS="-Wl,-rpath,${INSTALL_PREFIX}/lib" \
 ./configure --prefix="$PREFIX" --disable-tests
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
@@ -61,12 +66,13 @@ export PKG_CONFIG_PATH="${STAGING_DIR}${PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PATH="${STAGING_DIR}${PREFIX}/bin:$PATH"
 export LD_LIBRARY_PATH="${STAGING_DIR}${PREFIX}/lib:$LD_LIBRARY_PATH"
 export CPPFLAGS="-I${STAGING_DIR}${PREFIX}/include"
-export LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib"
+export LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib"
 
 # Build libgcrypt
 echo ""
 echo "Step 3: Building libgcrypt..."
 cd "libgcrypt-${LIBGCRYPT_VERSION}"
+LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
 ./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}"
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
@@ -76,6 +82,7 @@ cd ..
 echo ""
 echo "Step 4: Building libassuan..."
 cd "libassuan-${LIBASSUAN_VERSION}"
+LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
 ./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}"
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
@@ -85,6 +92,7 @@ cd ..
 echo ""
 echo "Step 5: Building libksba..."
 cd "libksba-${LIBKSBA_VERSION}"
+LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
 ./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}"
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
@@ -94,6 +102,7 @@ cd ..
 echo ""
 echo "Step 6: Building npth..."
 cd "npth-${NPTH_VERSION}"
+LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
 ./configure --prefix="$PREFIX"
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
@@ -104,6 +113,7 @@ echo ""
 echo "Step 7: Building GnuPG..."
 cd "gnupg-${GNUPG_VERSION}"
 
+LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
 ./configure \
     --prefix="$PREFIX" \
     --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}" \
