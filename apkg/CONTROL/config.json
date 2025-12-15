@@ -18,6 +18,14 @@
     "symbolic-link": {
       "/bin": [
         "jq"
+      ],
+      "/lib": [
+        "libjq.so",
+        "libjq.so.1",
+        "libjq.so.1.0.4",
+        "libonig.so",
+        "libonig.so.5",
+        "libonig.so.5.4.0"
       ]
     }
   }

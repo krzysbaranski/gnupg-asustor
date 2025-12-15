@@ -54,8 +54,8 @@ download_and_extract "jq" "$JQ_VERSION" "https://github.com/jqlang/jq/releases/d
 echo ""
 echo "Step 2: Building oniguruma..."
 cd "onig-${ONIGURUMA_VERSION}"
-LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
-./configure --prefix="$PREFIX" --disable-shared --enable-static
+CFLAGS="-fPIC" LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
+./configure --prefix="$PREFIX" --enable-static
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
 cd ..
