@@ -1,27 +1,23 @@
 #!/bin/bash
 set -e
 
-# Build script for GnuPG and dependencies for ASUSTOR NAS
-# This script downloads, compiles, and packages GnuPG
+# Build script for jq and dependencies for ASUSTOR NAS
+# This script downloads, compiles, and packages jq
 
-GNUPG_VERSION="2.4.8"
-LIBGPG_ERROR_VERSION="1.56"
-LIBGCRYPT_VERSION="1.11.2"
-LIBASSUAN_VERSION="3.0.2"
-LIBKSBA_VERSION="1.6.7"
-NPTH_VERSION="1.8"
+JQ_VERSION="1.7.1"
+ONIGURUMA_VERSION="6.9.9"
 
 # Build configuration
 # PREFIX: Path used during build/staging (can be any path for development)
 # INSTALL_PREFIX: Actual runtime path where ASUSTOR will install the package
-PREFIX="/usr/local/gnupg"
+PREFIX="/usr/local/jq"
 BUILD_DIR="$(pwd)/build"
 STAGING_DIR="$(pwd)/staging"
 PACKAGE_DIR="$(pwd)/apkg"
 
 # ASUSTOR installs packages to /usr/local/AppCentral/<package_name>
 # We need to set RPATH to ensure binaries use the packaged libraries
-INSTALL_PREFIX="/usr/local/AppCentral/gnupg"
+INSTALL_PREFIX="/usr/local/AppCentral/jq"
 
 # Create build and staging directories
 mkdir -p "$BUILD_DIR"
@@ -29,7 +25,7 @@ mkdir -p "$STAGING_DIR"
 cd "$BUILD_DIR"
 
 echo "================================================"
-echo "Building GnuPG ${GNUPG_VERSION} for ASUSTOR NAS"
+echo "Building jq ${JQ_VERSION} for ASUSTOR NAS"
 echo "================================================"
 
 # Function to download and extract
@@ -37,93 +33,50 @@ download_and_extract() {
     local name=$1
     local version=$2
     local url=$3
+    local ext=$4
     
     echo "Downloading ${name} ${version}..."
-    wget -q "${url}" -O "${name}-${version}.tar.bz2"
+    wget -q "${url}" -O "${name}-${version}.${ext}"
     echo "Extracting ${name} ${version}..."
-    tar xjf "${name}-${version}.tar.bz2"
+    if [ "$ext" = "tar.gz" ]; then
+        tar xzf "${name}-${version}.${ext}"
+    elif [ "$ext" = "tar.bz2" ]; then
+        tar xjf "${name}-${version}.${ext}"
+    fi
 }
 
 # Download sources
 echo "Step 1: Downloading source packages..."
-download_and_extract "libgpg-error" "$LIBGPG_ERROR_VERSION" "https://gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-${LIBGPG_ERROR_VERSION}.tar.bz2"
-download_and_extract "libgcrypt" "$LIBGCRYPT_VERSION" "https://gnupg.org/ftp/gcrypt/libgcrypt/libgcrypt-${LIBGCRYPT_VERSION}.tar.bz2"
-download_and_extract "libassuan" "$LIBASSUAN_VERSION" "https://gnupg.org/ftp/gcrypt/libassuan/libassuan-${LIBASSUAN_VERSION}.tar.bz2"
-download_and_extract "libksba" "$LIBKSBA_VERSION" "https://gnupg.org/ftp/gcrypt/libksba/libksba-${LIBKSBA_VERSION}.tar.bz2"
-download_and_extract "npth" "$NPTH_VERSION" "https://gnupg.org/ftp/gcrypt/npth/npth-${NPTH_VERSION}.tar.bz2"
-download_and_extract "gnupg" "$GNUPG_VERSION" "https://gnupg.org/ftp/gcrypt/gnupg/gnupg-${GNUPG_VERSION}.tar.bz2"
+download_and_extract "onig" "$ONIGURUMA_VERSION" "https://github.com/kkos/oniguruma/releases/download/v${ONIGURUMA_VERSION}/onig-${ONIGURUMA_VERSION}.tar.gz" "tar.gz"
+download_and_extract "jq" "$JQ_VERSION" "https://github.com/jqlang/jq/releases/download/jq-${JQ_VERSION}/jq-${JQ_VERSION}.tar.gz" "tar.gz"
 
-# Build libgpg-error
+# Build oniguruma
 echo ""
-echo "Step 2: Building libgpg-error..."
-cd "libgpg-error-${LIBGPG_ERROR_VERSION}"
-LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
-./configure --prefix="$PREFIX" --disable-tests
+echo "Step 2: Building oniguruma..."
+cd "onig-${ONIGURUMA_VERSION}"
+CFLAGS="-fPIC" LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
+./configure --prefix="$PREFIX" --enable-static
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"
 cd ..
 
-# Set up environment to use staged dependencies for subsequent builds
+# Set up environment to use staged dependencies for jq build
 export PKG_CONFIG_PATH="${STAGING_DIR}${PREFIX}/lib/pkgconfig:$PKG_CONFIG_PATH"
 export PATH="${STAGING_DIR}${PREFIX}/bin:$PATH"
 export LD_LIBRARY_PATH="${STAGING_DIR}${PREFIX}/lib:$LD_LIBRARY_PATH"
 export CPPFLAGS="-I${STAGING_DIR}${PREFIX}/include"
 export LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib"
 
-# Build libgcrypt
+# Build jq
 echo ""
-echo "Step 3: Building libgcrypt..."
-cd "libgcrypt-${LIBGCRYPT_VERSION}"
-LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
-./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}"
-make -j$(nproc)
-make install DESTDIR="${STAGING_DIR}"
-cd ..
-
-# Build libassuan
-echo ""
-echo "Step 4: Building libassuan..."
-cd "libassuan-${LIBASSUAN_VERSION}"
-LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
-./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}"
-make -j$(nproc)
-make install DESTDIR="${STAGING_DIR}"
-cd ..
-
-# Build libksba
-echo ""
-echo "Step 5: Building libksba..."
-cd "libksba-${LIBKSBA_VERSION}"
-LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
-./configure --prefix="$PREFIX" --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}"
-make -j$(nproc)
-make install DESTDIR="${STAGING_DIR}"
-cd ..
-
-# Build npth
-echo ""
-echo "Step 6: Building npth..."
-cd "npth-${NPTH_VERSION}"
-LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
-./configure --prefix="$PREFIX"
-make -j$(nproc)
-make install DESTDIR="${STAGING_DIR}"
-cd ..
-
-# Build GnuPG
-echo ""
-echo "Step 7: Building GnuPG..."
-cd "gnupg-${GNUPG_VERSION}"
+echo "Step 3: Building jq..."
+cd "jq-${JQ_VERSION}"
 
 LDFLAGS="-L${STAGING_DIR}${PREFIX}/lib -Wl,-rpath,${INSTALL_PREFIX}/lib" \
 ./configure \
     --prefix="$PREFIX" \
-    --with-libgpg-error-prefix="${STAGING_DIR}${PREFIX}" \
-    --with-libgcrypt-prefix="${STAGING_DIR}${PREFIX}" \
-    --with-libassuan-prefix="${STAGING_DIR}${PREFIX}" \
-    --with-ksba-prefix="${STAGING_DIR}${PREFIX}" \
-    --with-npth-prefix="${STAGING_DIR}${PREFIX}" \
-    --disable-tests
+    --with-oniguruma="${STAGING_DIR}${PREFIX}" \
+    --disable-maintainer-mode
 
 make -j$(nproc)
 make install DESTDIR="${STAGING_DIR}"

@@ -8,7 +8,7 @@ PACKAGE_DIR="$(pwd)/apkg"
 CONFIG_FILE="${PACKAGE_DIR}/CONTROL/config.json"
 
 echo "================================================"
-echo "Validating GnuPG ASUSTOR Package"
+echo "Validating jq ASUSTOR Package"
 echo "================================================"
 echo ""
 

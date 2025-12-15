@@ -25,20 +25,12 @@ jobs:
           sudo apt-get install -y \
             build-essential \
             wget \
-            bzip2 \
-            make \
-            gettext \
-            texinfo \
-            libgnutls28-dev \
-            libbz2-dev \
-            zlib1g-dev \
-            libncurses5-dev \
-            libsqlite3-dev \
-            libldap2-dev \
-            libreadline-dev \
-            libusb-1.0-0-dev
+            autoconf \
+            automake \
+            libtool \
+            make
       
-      - name: Build GnuPG and dependencies
+      - name: Build jq and dependencies
         run: |
           chmod +x ./build.sh
           ./build.sh
@@ -62,7 +54,7 @@ jobs:
       - name: Upload APK package
         uses: actions/upload-artifact@v4
         with:
-          name: gnupg-asustor-apk
+          name: jq-asustor-apk
           path: dist/*.apk
           if-no-files-found: error
       
