@@ -1,21 +1,21 @@
 #!/bin/bash
 set -e
 
-# Package script for GnuPG ASUSTOR APK
+# Package script for jq ASUSTOR APK
 # This script prepares the package structure by copying files from staging
 
 STAGING_DIR="$(pwd)/staging"
 PACKAGE_DIR="$(pwd)/apkg"
-PREFIX="/usr/local/gnupg"
+PREFIX="/usr/local/jq"
 
 echo "================================================"
-echo "Packaging GnuPG for ASUSTOR"
+echo "Packaging jq for ASUSTOR"
 echo "================================================"
 
 # Check if staging directory exists
 if [ ! -d "${STAGING_DIR}${PREFIX}" ]; then
     echo "Error: Staging directory not found at ${STAGING_DIR}${PREFIX}"
-    echo "Please run build.sh first to build GnuPG"
+    echo "Please run build.sh first to build jq"
     exit 1
 fi
 

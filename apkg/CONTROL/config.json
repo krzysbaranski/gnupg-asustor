@@ -1,64 +1,23 @@
 {
   "general": {
-    "package": "gnupg",
-    "name": "GnuPG",
-    "version": "2.4.8-1",
+    "package": "jq",
+    "name": "jq",
+    "version": "1.7.1-1",
     "depends": [],
     "conflicts": [],
-    "developer": "GnuPG Project",
+    "developer": "jq contributors",
     "maintainer": "krzysbaranski",
     "email": "",
-    "website": "https://gnupg.org/",
+    "website": "https://jqlang.github.io/jq/",
     "architecture": "x86-64",
     "firmware": "5.1",
-    "description": "GNU Privacy Guard - a complete and free implementation of the OpenPGP standard",
-    "license": "GPL-3.0"
+    "description": "jq is a lightweight and flexible command-line JSON processor",
+    "license": "MIT"
   },
   "register": {
     "symbolic-link": {
       "/bin": [
-        "dirmngr",
-        "dirmngr-client",
-        "dumpsexp",
-        "gpg",
-        "gpg-agent",
-        "gpg-card",
-        "gpgconf",
-        "gpg-connect-agent",
-        "gpg-error",
-        "gpgparsemail",
-        "gpgrt-config",
-        "gpgsm",
-        "gpgsplit",
-        "gpgtar",
-        "gpgv",
-        "gpg-wks-client",
-        "gpg-wks-server",
-        "hmac256",
-        "kbxutil",
-        "ksba-config",
-        "libassuan-config",
-        "libgcrypt-config",
-        "mpicalc",
-        "watchgnupg",
-        "yat2m"
-      ],
-      "/lib": [
-        "libassuan.so",
-        "libassuan.so.9",
-        "libassuan.so.9.0.2",
-        "libgcrypt.so",
-        "libgcrypt.so.20",
-        "libgcrypt.so.20.6.0",
-        "libgpg-error.so",
-        "libgpg-error.so.0",
-        "libgpg-error.so.0.40.0",
-        "libksba.so",
-        "libksba.so.8",
-        "libksba.so.8.14.7",
-        "libnpth.so",
-        "libnpth.so.0",
-        "libnpth.so.0.3.0"
+        "jq"
       ]
     }
   }

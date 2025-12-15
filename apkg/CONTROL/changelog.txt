@@ -1,22 +1,6 @@
-GnuPG for ASUSTOR NAS - Changelog
-
-Version 2.4.8-1 (2024-12-07)
-----------------------------
-* Fix libgcrypt version conflict on ASUSTOR NAS
-* Embed RPATH in all binaries to prioritize packaged libraries over system libraries
-* Resolves "Fatal: libgcrypt is too old" error when system has older libgcrypt
-* No changes to GnuPG or dependency versions
-
-Version 2.4.8 (2024-11-09)
---------------------------
-* Initial release of GnuPG for ASUSTOR NAS
-* Includes GnuPG 2.4.8 with all core utilities
-* Statically compiled for maximum compatibility
-* Includes dependencies:
-  - libgpg-error 1.56
-  - libgcrypt 1.11.2
-  - libassuan 3.0.2
-  - libksba 1.6.7
-  - npth 1.8
-* Automated build pipeline via GitHub Actions
-* Command-line tools available after installation
+Version 1.7.1-1 (2024-12-15)
+- Initial release of jq for ASUSTOR NAS
+- jq version 1.7.1
+- Built from source with oniguruma 6.9.9
+- Statically linked with oniguruma for zero runtime dependencies
+- Optimized for ASUSTOR NAS environment
