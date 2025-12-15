@@ -1,11 +1,11 @@
 #!/bin/sh
 
-NAME="GnuPG"
+NAME="jq"
 
 case "$1" in
     start)
         echo "Starting $NAME"
-		ldconfig
+ldconfig
         ;;
     stop)
         echo "Stopping $NAME"
